@@ -2,7 +2,7 @@ package com.rilixtech;
 
 import android.content.Context;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

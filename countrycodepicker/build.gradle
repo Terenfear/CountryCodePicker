@@ -6,7 +6,6 @@ version = rootProject.ext.libraryVersion
 
 android {
   compileSdkVersion rootProject.ext.sdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
     minSdkVersion rootProject.ext.minSdkVersion
@@ -28,8 +27,8 @@ android {
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   testImplementation 'junit:junit:4.12'
-  implementation "com.android.support:recyclerview-v7:$supportLibVersion"
-  implementation "com.android.support:appcompat-v7:$supportLibVersion"
+  implementation "androidx.recyclerview:recyclerview:1.0.0"
+  implementation "androidx.appcompat:appcompat:1.0.2"
   api 'io.michaelrocks:libphonenumber-android:8.9.14'
 
 }

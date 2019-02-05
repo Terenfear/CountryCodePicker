@@ -7,11 +7,12 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -1103,13 +1104,15 @@ public class CountryCodePicker extends RelativeLayout {
     if (phoneNumber == null) {
       mRegisteredPhoneNumberTextView.setHint("");
     } else {
+      String hint = mPhoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+              .replaceFirst("^\\+\\d+\\s", "");
+
       if(BuildConfig.DEBUG) {
         Log.d(TAG, "setPhoneNumberHint called");
         Log.d(TAG, "mSelectedCountry.getIso() = " + mSelectedCountry.getIso());
-        Log.d(TAG, "hint = " + mPhoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL));
+        Log.d(TAG, "hint = " + hint);
       }
 
-      String hint = mPhoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
       //if (mRegisteredPhoneNumberTextView.getHint() != null) {
       //  mRegisteredPhoneNumberTextView.setHint("");
       //}
@@ -1118,6 +1121,7 @@ public class CountryCodePicker extends RelativeLayout {
   }
 
   private class PhoneNumberWatcher extends PhoneNumberFormattingTextWatcher {
+    private volatile boolean ignore = false;
     private boolean lastValidity;
     private String previousCountryCode = "";
 
@@ -1156,6 +1160,17 @@ public class CountryCodePicker extends RelativeLayout {
           mPhoneNumberInputValidityListener.onFinish(CountryCodePicker.this, validity);
         }
         lastValidity = validity;
+      }
+    }
+
+    @Override public void afterTextChanged(Editable s) {
+      if (!ignore && mSelectedCountry != null) {
+        String code = "+" + mSelectedCountry.getPhoneCode().toUpperCase();
+        ignore = true;
+        s.insert(0, code);
+        super.afterTextChanged(s);
+        s.replace(0, code.length(), "");
+        ignore = false;
       }
     }
   }
