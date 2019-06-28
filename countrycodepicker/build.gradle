@@ -29,6 +29,6 @@ dependencies {
   testImplementation 'junit:junit:4.12'
   implementation "androidx.recyclerview:recyclerview:1.0.0"
   implementation "androidx.appcompat:appcompat:1.0.2"
-  api 'io.michaelrocks:libphonenumber-android:8.9.14'
+  api 'io.michaelrocks:libphonenumber-android:8.10.13'
 
 }

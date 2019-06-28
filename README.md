@@ -41,7 +41,7 @@ CCP removes confusion about how to add number and thus make view more understand
  2. Add AppCompatEditText view to layout:
 
      ````xml
-     <android.support.v7.widget.AppCompatEditText
+     <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/phone_number_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
